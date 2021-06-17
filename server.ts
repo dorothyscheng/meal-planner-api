@@ -3,6 +3,7 @@ import express from 'express';
 import { ErrorRequestHandler } from 'express';
 // import { Request, Response, NextFunction } from 'express';
 // const routes = require('./routes');
+// import routes from './routes';
 
 const PORT = process.env.PORT || 4000;
 const app = express();
