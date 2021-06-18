@@ -1,16 +1,27 @@
 import { Document, Model, model, Schema } from 'mongoose';
+import { IRecipe } from './Recipe';
 
 export interface IList extends Document {
     name: string,
-    recipes: Schema.Types.ObjectId[],
+    recipes: IRecipe[],
 }
 
 const listSchema: Schema = new Schema({
   name: {type: String, required: true},
   recipes: [
     {
-        type: Schema.Types.ObjectId,
-        ref: 'Recipe',
+    url: String,
+    image: String,
+    source: String,
+    label: String,
+    yield: Number,
+    dietLabels: [String],
+    healthLabels: [String],
+    ingredientLines: [String],
+    totalTime: Number,
+    cuisineType: [String],
+    mealType: [String],
+    apiLink: String,
     }
   ],
 });

@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.ts",
+    "start": "node build/server.js",
     "dev": "nodemon server.ts"
   },
   "author": "Dorothy Cheng",

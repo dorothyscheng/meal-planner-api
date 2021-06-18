@@ -1,9 +1,8 @@
 // const express = require('express');
 import express from 'express';
 import { ErrorRequestHandler } from 'express';
-// import { Request, Response, NextFunction } from 'express';
-// const routes = require('./routes');
-// import routes from './routes';
+import './models';
+import usersRoutes from './routes/usersRoutes';
 
 const PORT = process.env.PORT || 4000;
 const app = express();
@@ -11,10 +10,10 @@ const app = express();
 // const cors = require('cors');
 // app.use(cors())
 
-// app.use(express.json());
+app.use(express.json());
 
 // API routes
-// app.use('/api/v1/users', routes.users);
+app.use('/api/v1/users', usersRoutes);
 // app.use('/api/v1/lists', routes.lists);
 // app.use('/api/v1/weeks', routes.weeks);
 
@@ -26,4 +25,4 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 app.use(errorHandler);
 
 // listen
-app.listen(PORT, () => console.log(`Server is running on port http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Server on port http://localhost:${PORT}`));
