@@ -35,4 +35,37 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
-export { index, show, create };
+const update = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user: IUser | null = await User.findOne({ username: req.body.username });
+        if (!user) return res.json({ message: 'User not found in database' });
+        const list: IList | null = await List.findById({ _id: req.params.id });
+        if (!list) return res.json({ message: 'List not found in database' });
+        if (req.body.recipe) {
+            list.recipes.push(req.body.recipe);
+        };
+        if (list.name !== req.body.name) {
+            list.name = req.body.name;
+        };
+        await list.save();
+        res.status(201).json({ list: list });
+    } catch (err: unknown) {
+        next(err);
+    }
+}
+
+const destroy = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user: IUser | null = await User.findOne({ username: req.body.username });
+        if (!user) return res.json({ message: 'User not found in database' });
+        const deletedList: IList | null = await List.findByIdAndDelete({ _id: req.params.id });
+        if (!deletedList) return res.json({ message: 'List not found in database' });
+        user.lists = user.lists.filter(list => list !== deletedList._id);
+        await user.save();
+        res.json({ list: deletedList });
+    } catch (err: unknown) {
+        next(err);
+    }
+}
+
+export { index, show, create, update, destroy };

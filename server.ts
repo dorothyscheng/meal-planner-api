@@ -3,6 +3,7 @@ import express from 'express';
 import { ErrorRequestHandler } from 'express';
 import './models';
 import usersRoutes from './routes/usersRoutes';
+import listsRoutes from './routes/listsRoutes';
 
 const PORT = process.env.PORT || 4000;
 const app = express();
@@ -14,7 +15,7 @@ app.use(express.json());
 
 // API routes
 app.use('/api/v1/users', usersRoutes);
-// app.use('/api/v1/lists', routes.lists);
+app.use('/api/v1/lists', listsRoutes);
 // app.use('/api/v1/weeks', routes.weeks);
 
 // error handling

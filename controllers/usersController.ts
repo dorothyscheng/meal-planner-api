@@ -1,5 +1,6 @@
 import User, { IUser } from '../models/User';
 import List, { IList } from '../models/List';
+import Week, { IWeek } from '../models/Week';
 import { Request, Response, NextFunction } from 'express';
 
 const index = async (req: Request, res: Response, next: NextFunction) => {
@@ -61,8 +62,9 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
 const destroy = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const deletedUser: IUser | null = await User.findOneAndDelete({ username: req.params.username });
-        // add deleting lists and weeks by the user
         if (!deletedUser) return res.json({ message: 'User not found in database' });
+        deletedUser.lists.forEach(async list => await List.findByIdAndDelete({ _id: list}));
+        deletedUser.weeks.forEach(async week => await Week.findByIdAndDelete({ _id: week }));
         res.json({ user: deletedUser });
     } catch (err: unknown) {
         next(err);
