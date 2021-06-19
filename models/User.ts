@@ -4,12 +4,12 @@ export interface IUser extends Document {
     username: string,
     password: string,
     email: string,
-    familySize: number,
+    familySize?: number,
     lists: Schema.Types.ObjectId[],
     weeks: Schema.Types.ObjectId[],
 }
 
-const userSchema = new Schema({
+const userSchema: Schema = new Schema({
     username: {type: String, required: true, unique: true},
     password: {type: String, required: true},
     email: {type: String, required: true, unique: true},

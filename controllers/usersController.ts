@@ -1,6 +1,6 @@
 import User, { IUser } from '../models/User';
 import List, { IList } from '../models/List';
-import Week, { IWeek } from '../models/Week';
+import Week from '../models/Week';
 import { Request, Response, NextFunction } from 'express';
 
 const index = async (req: Request, res: Response, next: NextFunction) => {

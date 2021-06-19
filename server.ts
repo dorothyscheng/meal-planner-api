@@ -4,6 +4,7 @@ import { ErrorRequestHandler } from 'express';
 import './models';
 import usersRoutes from './routes/usersRoutes';
 import listsRoutes from './routes/listsRoutes';
+import weeksRoutes from './routes/weeksRoutes';
 
 const PORT = process.env.PORT || 4000;
 const app = express();
@@ -16,7 +17,7 @@ app.use(express.json());
 // API routes
 app.use('/api/v1/users', usersRoutes);
 app.use('/api/v1/lists', listsRoutes);
-// app.use('/api/v1/weeks', routes.weeks);
+app.use('/api/v1/weeks', weeksRoutes);
 
 // error handling
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
