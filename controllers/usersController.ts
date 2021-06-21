@@ -15,6 +15,18 @@ const index = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
+const login = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const foundUser: IUser | null = await User.findOne({ username: req.body.username });
+        if (!foundUser) return res.json({ message: 'Authentication failed' });
+        const match: boolean = Boolean(foundUser.password === req.body.password);
+        if (!match) return res.json({ message: 'Authentication failed' });
+        res.json({ user: foundUser });
+    } catch (err: unknown) {
+        next(err);
+    }
+}
+
 const show = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const foundUser: IUser | null = await User.findOne({ username: req.params.username });
@@ -71,4 +83,4 @@ const destroy = async (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
-export { index, show, create, update, destroy };
+export { index, login, show, create, update, destroy };
