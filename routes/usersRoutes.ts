@@ -4,7 +4,7 @@ import { index, login, show, create, update, destroy } from '../controllers/user
 const router = express.Router();
 
 router.get('/', index);
-router.get('/login', login);
+router.post('/login', login);
 router.get('/:username', show);
 router.post('/', create);
 router.put('/:username', update);
