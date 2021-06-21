@@ -9,8 +9,8 @@ import weeksRoutes from './routes/weeksRoutes';
 const PORT = process.env.PORT || 4000;
 const app = express();
 
-// const cors = require('cors');
-// app.use(cors())
+const cors = require('cors');
+app.use(cors())
 
 app.use(express.json());
 
