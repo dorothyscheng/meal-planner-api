@@ -37,15 +37,12 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
 
 const update = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const list: IList | null = await List.findById({ _id: req.params.id });
+        const list: IList | null = await List.findByIdAndUpdate(
+            { _id: req.params.id },
+            req.body,
+            { new:true },
+        );
         if (!list) return res.json({ message: 'List not found in database' });
-        if (req.body.recipe) {
-            list.recipes.push(req.body.recipe);
-        };
-        if (list.name !== req.body.name) {
-            list.name = req.body.name;
-        };
-        await list.save();
         res.status(201).json(list);
     } catch (err: unknown) {
         next(err);
