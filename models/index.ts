@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const connectionString = process.env.MONGODB_URI || 'mongodb://localhost:27017/wayfarer';
+const connectionString = process.env.MONGODB_URI || 'mongodb://localhost:27017/meal-planner';
 
 const configOptions = {
   useNewUrlParser: true,

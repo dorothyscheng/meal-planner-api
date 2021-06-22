@@ -37,8 +37,6 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
 
 const update = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const user: IUser | null = await User.findOne({ username: req.body.username });
-        if (!user) return res.json({ message: 'User not found in database' });
         const list: IList | null = await List.findById({ _id: req.params.id });
         if (!list) return res.json({ message: 'List not found in database' });
         if (req.body.recipe) {
@@ -56,10 +54,10 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
 
 const destroy = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const user: IUser | null = await User.findOne({ username: req.body.username });
-        if (!user) return res.json({ message: 'User not found in database' });
         const deletedList: IList | null = await List.findByIdAndDelete({ _id: req.params.id });
         if (!deletedList) return res.json({ message: 'List not found in database' });
+        const user: IUser | null = await User.findOne({ username: deletedList.username })
+        if (!user) return res.json({ message: 'User not found in database' });
         user.lists = user.lists.filter(list => list !== deletedList._id);
         await user.save();
         res.json(deletedList);

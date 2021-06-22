@@ -49,7 +49,7 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
         existingUser = await User.findOne({ email: req.body.email });
         if (existingUser) return res.json({ message: 'Email address is already in use' });
         const newUser = await User.create(req.body);
-        const faveList: IList = await List.create({ name: 'Favorites' });
+        const faveList: IList = await List.create({ name: 'Favorites', username: req.body.username });
         newUser.lists.push(faveList._id);
         await newUser.save();
         res.status(201).json(newUser);
@@ -64,7 +64,9 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
             { username: req.params.username },
             req.body,
             { new: true },
-        );
+        )
+            .populate('lists')
+            .populate('weeks');
         if (!updatedUser) return res.json({ message: 'User not found in database' });
         res.status(201).json(updatedUser);
     } catch (err: unknown) {
