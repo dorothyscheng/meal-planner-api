@@ -6,7 +6,7 @@ const index = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const foundLists: IList[] = await List.find({});
         if (foundLists.length === 0) return res.json({ message: 'No lists in database'});
-        res.json({ lists: foundLists });
+        res.json(foundLists);
     } catch (err: unknown) {
         next(err);
     };
@@ -16,7 +16,7 @@ const show = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const foundList: IList | null = await List.findById({ _id: req.params.id });
         if (!foundList) return res.json({ message: 'List not found in database' });
-        res.json({ list: foundList });
+        res.json(foundList);
     } catch (err: unknown) {
         next(err);
     };
@@ -29,7 +29,7 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
         const newList: IList = await List.create(req.body);
         user.lists.push(newList._id);
         await user.save();
-        res.status(201).json({ list: newList });
+        res.status(201).json(newList);
     } catch (err: unknown) {
         next(err);
     }
@@ -48,7 +48,7 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
             list.name = req.body.name;
         };
         await list.save();
-        res.status(201).json({ list: list });
+        res.status(201).json(list);
     } catch (err: unknown) {
         next(err);
     }
@@ -62,7 +62,7 @@ const destroy = async (req: Request, res: Response, next: NextFunction) => {
         if (!deletedList) return res.json({ message: 'List not found in database' });
         user.lists = user.lists.filter(list => list !== deletedList._id);
         await user.save();
-        res.json({ list: deletedList });
+        res.json(deletedList);
     } catch (err: unknown) {
         next(err);
     }

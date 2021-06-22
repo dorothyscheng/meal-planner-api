@@ -9,7 +9,7 @@ const index = async (req: Request, res: Response, next: NextFunction) => {
             .populate('lists')
             .populate('weeks');
         if (foundUsers.length === 0) return res.json({ message: 'No users in database' });
-        res.json({ users: foundUsers });
+        res.json(foundUsers);
     } catch (err: unknown) {
         next(err);
     }
@@ -17,11 +17,13 @@ const index = async (req: Request, res: Response, next: NextFunction) => {
 
 const login = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const foundUser: IUser | null = await User.findOne({ username: req.body.username });
+        const foundUser: IUser | null = await User.findOne({ username: req.body.username })
+            .populate('lists')
+            .populate('weeks');
         if (!foundUser) return res.json({ message: 'Authentication failed' });
         const match: boolean = Boolean(foundUser.password === req.body.password);
         if (!match) return res.json({ message: 'Authentication failed' });
-        res.json({ user: foundUser });
+        res.json(foundUser);
     } catch (err: unknown) {
         next(err);
     }
@@ -29,9 +31,11 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 
 const show = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const foundUser: IUser | null = await User.findOne({ username: req.params.username });
+        const foundUser: IUser | null = await User.findOne({ username: req.params.username })
+            .populate('lists')
+            .populate('weeks');
         if (!foundUser) return res.json({ message: 'User not found in database' });
-        res.json({ user: foundUser });
+        res.json(foundUser);
     } catch (err: unknown) {
         next(err);
     }
@@ -48,7 +52,7 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
         const faveList: IList = await List.create({ name: 'Favorites' });
         newUser.lists.push(faveList._id);
         await newUser.save();
-        res.status(201).json({ user: newUser });
+        res.status(201).json(newUser);
     } catch (err: unknown) {
         next(err);
     }
@@ -56,16 +60,13 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
 
 const update = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const existingUser: IUser | null = await User.findOne({ email: req.body.email });
-        if (existingUser) return res.json({ message: 'Email address is already in use' })
-        req.body.username = req.body.username.replace(/[^a-zA-Z1-9]/g, "");
         const updatedUser: IUser | null = await User.findOneAndUpdate(
             { username: req.params.username },
             req.body,
             { new: true },
         );
         if (!updatedUser) return res.json({ message: 'User not found in database' });
-        res.status(201).json({ user: updatedUser });
+        res.status(201).json(updatedUser);
     } catch (err: unknown) {
         next(err);
     }
@@ -77,7 +78,7 @@ const destroy = async (req: Request, res: Response, next: NextFunction) => {
         if (!deletedUser) return res.json({ message: 'User not found in database' });
         deletedUser.lists.forEach(async list => await List.findByIdAndDelete({ _id: list}));
         deletedUser.weeks.forEach(async week => await Week.findByIdAndDelete({ _id: week }));
-        res.json({ user: deletedUser });
+        res.json(deletedUser);
     } catch (err: unknown) {
         next(err);
     }

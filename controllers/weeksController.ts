@@ -6,7 +6,7 @@ const index = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const foundWeeks: IWeek[] = await Week.find({});
         if (foundWeeks.length === 0) return res.json({ message: 'No weeks found in database' });
-        res.json({ weeks: foundWeeks });
+        res.json(foundWeeks);
     } catch (err: unknown) {
         next(err);
     }
@@ -16,7 +16,7 @@ const show = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const foundWeek: IWeek | null = await Week.findById({ _id: req.params.id });
         if (!foundWeek) return res.json({ message: 'Week not found in database' });
-        res.json({ week: foundWeek });
+        res.json(foundWeek);
     } catch (err: unknown) {
         next(err);
     }
@@ -29,7 +29,7 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
         const newWeek: IWeek = await Week.create(req.body);
         user.weeks.push(newWeek._id);
         await user.save();
-        res.status(201).json({ week: newWeek });
+        res.status(201).json(newWeek);
     } catch (err: unknown) {
         next(err);
     }
@@ -45,7 +45,7 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
             { new: true },
         );
         if (!updatedWeek) return res.json({ message: 'Week not found in database' });
-        res.status(201).json({ week: updatedWeek });
+        res.status(201).json(updatedWeek);
     } catch (err: unknown) {
         next(err);
     }
@@ -59,7 +59,7 @@ const destroy = async (req: Request, res: Response, next: NextFunction) => {
         if (!deletedWeek) return res.json({ message: 'Week not found in database' });
         user.weeks = user.weeks.filter(week => week !== deletedWeek._id);
         await user.save();
-        res.json({ week: deletedWeek });
+        res.json(deletedWeek);
     } catch (err: unknown) {
         next(err);
     }
