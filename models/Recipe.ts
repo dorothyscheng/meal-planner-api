@@ -49,57 +49,57 @@
 
 // export default Recipe;
 
-interface nutrients {
-    label: string,
-    quantity: number,
-    unit: string,
-}
+// interface nutrients {
+//     label: string,
+//     quantity: number,
+//     unit: string,
+// }
 
-interface nutrientObj {
-    ENERC_KCAL?: nutrients,
-    FAT?: nutrients,
-    FASAT?: nutrients,
-    FATRN?: nutrients,
-    FAMS?: nutrients,
-    FAPU?: nutrients,
-    CHOCDF?: nutrients,
-    FIBTG?: nutrients,
-    SUGAR?: nutrients,
-    PROCNT?: nutrients,
-    CHOLE?: nutrients,
-    NA?: nutrients,
-    CA?: nutrients,
-    MG?: nutrients,
-    K?: nutrients,
-    FE?: nutrients,
-    ZN?: nutrients,
-    P?: nutrients,
-    VITA_RAE?: nutrients,
-    VITC?: nutrients,
-    THIA?: nutrients,
-    RIBF?: nutrients,
-    NIA?: nutrients,
-    VITB6A?: nutrients,
-    FOLDFE?: nutrients,
-    FOLFD?: nutrients,
-    FOLAC?: nutrients,
-    VITB12?: nutrients,
-    VITD?: nutrients,
-    TOCPHA?: nutrients,
-    VITK1?: nutrients,
-    WATER?: nutrients,
-}
+// interface nutrientObj {
+//     ENERC_KCAL?: nutrients,
+//     FAT?: nutrients,
+//     FASAT?: nutrients,
+//     FATRN?: nutrients,
+//     FAMS?: nutrients,
+//     FAPU?: nutrients,
+//     CHOCDF?: nutrients,
+//     FIBTG?: nutrients,
+//     SUGAR?: nutrients,
+//     PROCNT?: nutrients,
+//     CHOLE?: nutrients,
+//     NA?: nutrients,
+//     CA?: nutrients,
+//     MG?: nutrients,
+//     K?: nutrients,
+//     FE?: nutrients,
+//     ZN?: nutrients,
+//     P?: nutrients,
+//     VITA_RAE?: nutrients,
+//     VITC?: nutrients,
+//     THIA?: nutrients,
+//     RIBF?: nutrients,
+//     NIA?: nutrients,
+//     VITB6A?: nutrients,
+//     FOLDFE?: nutrients,
+//     FOLFD?: nutrients,
+//     FOLAC?: nutrients,
+//     VITB12?: nutrients,
+//     VITD?: nutrients,
+//     TOCPHA?: nutrients,
+//     VITK1?: nutrients,
+//     WATER?: nutrients,
+// }
 
-interface digest {
-    label?: string,
-    tag?: string,
-    schemaOrgTag?: string,
-    total?: number,
-    hasRDI?: boolean,
-    daily?: number,
-    unity?: string,
-    sub?: digest[],
-}
+// interface digest {
+//     label?: string,
+//     tag?: string,
+//     schemaOrgTag?: string,
+//     total?: number,
+//     hasRDI?: boolean,
+//     daily?: number,
+//     unity?: string,
+//     sub?: digest[],
+// }
 
 export interface Recipe {
     recipe: {
@@ -127,9 +127,9 @@ export interface Recipe {
         cuisineType?: string[],
         mealType?: string[],
         dishType?: string[],
-        totalNutrients?: nutrientObj,
-        totalDaily?: nutrientObj,
-        digest?: digest,
+        // totalNutrients?: nutrientObj,
+        // totalDaily?: nutrientObj,
+        // digest?: digest,
     },
     _links: {
         self: {
