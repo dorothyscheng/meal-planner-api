@@ -46,7 +46,7 @@ const listSchema: Schema = new Schema({
       },
     }
   ],
-});
+}, {timestamps: true});
 
 const List: Model<IList> = model('List', listSchema)
 

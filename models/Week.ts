@@ -742,7 +742,7 @@ const weekSchema: Schema = new Schema({
           },
       },
     },
-});
+}, { timestamps: true });
 
 const Week: Model<IWeek> = model('Week', weekSchema)
 
