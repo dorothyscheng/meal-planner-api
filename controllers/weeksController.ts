@@ -42,7 +42,7 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
         const updatedWeek: IWeek | null = await Week.findOneAndUpdate(
             { _id: req.params.id },
             req.body,
-            { new: true },
+            { new: true, overwrite: true },
         );
         if (!updatedWeek) return res.json({ message: 'Week not found in database' });
         res.status(201).json(updatedWeek);
@@ -53,10 +53,10 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
 
 const destroy = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const user: IUser | null = await User.findOne({ username: req.body.username });
-        if (!user) return res.json({ message: 'User not found in database' });
         const deletedWeek: IWeek | null = await Week.findByIdAndDelete({ _id: req.params.id });
         if (!deletedWeek) return res.json({ message: 'Week not found in database' });
+        const user: IUser | null = await User.findOne({ username: deletedWeek.username });
+        if (!user) return res.json({ message: 'User not found in database' });
         user.weeks = user.weeks.filter(week => week !== deletedWeek._id);
         await user.save();
         res.json(deletedWeek);
