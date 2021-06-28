@@ -1,4 +1,3 @@
-// const express = require('express');
 import express from 'express';
 import { ErrorRequestHandler } from 'express';
 import './models';
