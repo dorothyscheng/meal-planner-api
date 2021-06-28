@@ -1,7 +1,10 @@
+import bcrypt from 'bcrypt';
 import User, { IUser } from '../models/User';
 import List, { IList } from '../models/List';
 import Week from '../models/Week';
 import { Request, Response, NextFunction } from 'express';
+
+const saltRounds = 10;
 
 const index = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -21,7 +24,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
             .populate('lists')
             .populate('weeks');
         if (!foundUser) return res.json({ message: 'Authentication failed' });
-        const match: boolean = Boolean(foundUser.password === req.body.password);
+        const match: boolean = await bcrypt.compare(req.body.password, foundUser.password);;
         if (!match) return res.json({ message: 'Authentication failed' });
         res.json(foundUser);
     } catch (err: unknown) {
@@ -48,6 +51,8 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
         if (existingUser) return res.json({ message: 'Username is not available' });
         existingUser = await User.findOne({ email: req.body.email });
         if (existingUser) return res.json({ message: 'Email address is already in use' });
+        const hashedPw = await bcrypt.hash(req.body.password, saltRounds);
+        req.body.password = hashedPw;
         const newUser = await User.create(req.body);
         const faveList: IList = await List.create({ name: 'Favorites', username: req.body.username });
         newUser.lists.push(faveList._id);
